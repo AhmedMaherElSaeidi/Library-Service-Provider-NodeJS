@@ -1,6 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { Borrow } = require("../models/index.model");
+const { Borrow, User, Book } = require("../models/index.model");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -89,5 +89,34 @@ router.delete('/:id', adminAuth, async (req, res) => {
     res.status(201);
     res.json({ message: `Borrow record with id ${id} has been removed.` });
 })
+
+// JOIN OPERATIONS
+// GET BORROW TABLE JOINED WITH USER & BOOK TABLES RECORDS
+router.get("/join/user-book", async (req, res) => {
+    const join = await Borrow.findAll({ include: [User, Book], });
+
+    res.status(201);
+    res.json(join);
+});
+
+// GET BORROW TABLE JOINED WITH USER & BOOK TABLES SPECIFIC RECORD
+router.get("/join/user-book/:id", async (req, res) => {
+    const { id } = req.params;
+    const borrow = await Borrow.findOne({
+        where: { borrow_id: id },
+        include: [User, Book],
+    });
+
+    if (borrow === null) {
+        res.status(404);
+        res.json({
+            message: `No borrow record with id ${id} was found.`,
+        });
+        return;
+    }
+
+    res.status(201);
+    res.json(borrow);
+});
 
 module.exports = router;
