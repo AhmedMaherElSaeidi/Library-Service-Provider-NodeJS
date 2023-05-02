@@ -100,4 +100,23 @@ router.get("/join/category-book", async (req, res) => {
     res.json(join);
 });
 
+// GET bOOK TABLE JOINED WITH USER & BOOK TABLES SPECIFIC RECORD
+router.get("/join/category-book/:id", async (req, res) => {
+    const { id } = req.params;
+    const category = await Category.findOne({
+        category: { category_id: id },
+        include: Book,
+    });
+
+    if (category === null) {
+        res.status(404);
+        res.json({
+            message: `No category record with id ${id} was found.`,
+        });
+        return;
+    }
+
+    res.status(201);
+    res.json(category);
+});
 module.exports = router;
