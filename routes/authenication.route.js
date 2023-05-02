@@ -51,7 +51,7 @@ router.post("/register", usernameVa1idation, emailVa1idation, passwordVa1idation
         res.json({ message: "Registered successfully." });
     } catch (error) {
         res.statusCode = 400;
-        res.send(error);
+        res.json({message: error});
     }
 })
 
@@ -107,7 +107,7 @@ router.post("/login", emailVa1idation, passwordVa1idation, async (req, res) => {
         res.json({ token })
     } catch (error) {
         res.statusCode = 400;
-        res.send(error);
+        res.json({message: error});
     }
 
 })
