@@ -1,6 +1,7 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { User, Book } = require("../models/index.model");
+const bcrypt = require("bcrypt");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -29,8 +30,14 @@ router.get('/:id', async (req, res) => {
 
 // POST REQUEST => CREATE
 router.post('/', adminAuth, async (req, res) => {
-    const _user = req.body;
     try {
+        const _user = req.body;
+
+        const saltRounds = 10;
+        const salt = await bcrypt.genSalt(saltRounds);
+        const hashedPassword = await bcrypt.hash(_user.password, salt);
+        _user.password = hashedPassword;
+
         const user = await User.create(_user);
         res.status(201);
         res.json({ message: `User with id ${user.user_id} has been created.`, user });
@@ -56,6 +63,13 @@ router.put('/:id', adminAuth, async (req, res) => {
     try {
         const _user = req.body;
 
+        if (_user.password) {
+            const saltRounds = 10;
+            const salt = await bcrypt.genSalt(saltRounds);
+            const hashedPassword = await bcrypt.hash(_user.password, salt);
+            _user.password = hashedPassword;
+        }
+        
         await User.update(
             { ..._user },
             {
