@@ -23,10 +23,6 @@ module.exports = (db, type) => {
             type: type.STRING,
             allowNull: false,
         },
-        category: {
-            type: type.STRING,
-            allowNull: false,
-        },
         description: {
             type: type.STRING,
             allowNull: false,

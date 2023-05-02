@@ -7,11 +7,13 @@ const db = require("../config/database.config");
 const UserModel = require("./User.model");
 const BookModel = require("./Book.model");
 const BorrowModel = require("./Borrow.model");
+const CategoryModel = require("./category.model");
 
 // convert models to tables (calling models functions)
 const User = UserModel(db, Sequelize);
 const Book = BookModel(db, Sequelize);
 const Borrow = BorrowModel(db, Sequelize);
+const Category = CategoryModel(db, Sequelize);
 
 // one to many (user and book tables)
 User.hasMany(Book, {
@@ -19,7 +21,7 @@ User.hasMany(Book, {
   onUpdate: "CASCADE",
   foreignKey: 'user_id',
 });
-Book.belongsTo(User, {foreignKey: 'user_id'});
+Book.belongsTo(User, { foreignKey: 'user_id' });
 
 // one to many (user and borrow tables)
 User.hasMany(Borrow, {
@@ -27,7 +29,7 @@ User.hasMany(Borrow, {
   onUpdate: "CASCADE",
   foreignKey: 'user_id',
 });
-Borrow.belongsTo(User, {foreignKey: 'user_id'});
+Borrow.belongsTo(User, { foreignKey: 'user_id' });
 
 // one to many (book and borrow tables)
 Book.hasMany(Borrow, {
@@ -35,7 +37,15 @@ Book.hasMany(Borrow, {
   onUpdate: "CASCADE",
   foreignKey: 'book_id',
 });
-Borrow.belongsTo(Book, {foreignKey: 'book_id'});
+Borrow.belongsTo(Book, { foreignKey: 'book_id' });
+
+// many to one (category and book tables)
+Category.hasMany(Book, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+  foreignKey: 'category_id',
+});
+Book.belongsTo(Category, { foreignKey: 'category_id' });
 
 // convert models to tables
 // force:false => if tables are not created, create these tables
@@ -49,4 +59,5 @@ module.exports = {
   User,
   Book,
   Borrow,
+  Category
 };
