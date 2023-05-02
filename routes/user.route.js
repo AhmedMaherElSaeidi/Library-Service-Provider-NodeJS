@@ -104,7 +104,7 @@ router.get("/join/user-book", async (req, res) => {
 router.get("/join/user-book/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findOne({
-        user: { user_id: id },
+        where: { user_id: id },
         include: Book,
     });
 

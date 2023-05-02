@@ -105,7 +105,7 @@ router.get("/join/category-book/:id", async (req, res) => {
     const { id } = req.params;
     const category = await Category.findOne({
         attributes: ["category_id", "category"],
-        category: { category_id: id },
+        where: { category_id: id },
         include: Book,
     });
 
