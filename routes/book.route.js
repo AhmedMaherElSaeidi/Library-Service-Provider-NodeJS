@@ -93,7 +93,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
 // JOIN OPERATIONS
 router.get("/join/book-category", async (req, res) => {
-    const join = await Book.findAll({ include: Category });
+    const join = await Book.findAll({ include: { model: Category, attributes: ["category_id", "category"] } });
 
     res.status(201);
     res.json(join);
@@ -104,7 +104,7 @@ router.get("/join/book-category/:id", async (req, res) => {
     const { id } = req.params;
     const book = await Book.findOne({
         book: { book_id: id },
-        include: Category,
+        include: { model: Category, attributes: ["category_id", "category"] },
     });
 
     if (book === null) {
