@@ -36,7 +36,7 @@ router.post('/', adminAuth, async (req, res) => {
         res.json({ message: `User with id ${user.user_id} has been created.`, user });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem creating new user.\n${err}`);
+        res.json({ message: `there is a problem creating new user.\n${err}` });
     }
 })
 
@@ -68,7 +68,7 @@ router.put('/:id', adminAuth, async (req, res) => {
         res.json({ message: `User with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem updating user of id ${id}.\n${err}`);
+        res.json({ message: `there is a problem updating user of id ${id}.\n${err}` });
     }
 })
 
