@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', categoryRefVa1idation, adminAuth, async (req, res) => {
+router.post('/', adminAuth, categoryRefVa1idation, async (req, res) => {
     const _book = req.body;
     try {
         const book = await Book.create(_book);
