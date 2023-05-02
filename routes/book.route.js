@@ -2,7 +2,7 @@ const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { Book, Category } = require("../models/index.model");
 const { validationResult } = require('express-validator');
-const { categoryRefVa1idation } = require("../middleware/fields-validation.middleware");
+const { categoryRefVa1idation, userRefVa1idation } = require("../middleware/fields-validation.middleware");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, categoryRefVa1idation, async (req, res) => {
+router.post('/', adminAuth, categoryRefVa1idation, userRefVa1idation, async (req, res) => {
     const _book = req.body;
     try {
         const err = validationResult(req);
@@ -50,7 +50,7 @@ router.post('/', adminAuth, categoryRefVa1idation, async (req, res) => {
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', adminAuth, categoryRefVa1idation, async (req, res) => {    
+router.put('/:id', adminAuth, categoryRefVa1idation, userRefVa1idation, async (req, res) => {    
     const err = validationResult(req);
     if (!err.isEmpty()) {
         res.statusCode = 400;
