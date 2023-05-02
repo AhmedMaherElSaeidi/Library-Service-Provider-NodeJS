@@ -1,6 +1,7 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { Borrow, User, Book } = require("../models/index.model");
+const { userRefVa1idation, bookRefVa1idation } = require("../middleware/fields-validation.middleware");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -28,7 +29,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, async (req, res) => {
+router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
     const _borrow = req.body;
     try {
         const borrow = await Borrow.create(_borrow);
@@ -41,7 +42,7 @@ router.post('/', adminAuth, async (req, res) => {
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', adminAuth, async (req, res) => {
+router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
     const { id } = req.params;
     const borrow = await Borrow.findOne({ where: { borrow_id: id } });
 
@@ -120,7 +121,7 @@ router.get("/join/user-book/:id", async (req, res) => {
 });
 
 // POST BORROW RECORD JOINED WITH BOOK TABLE
-// router.put("/join/borrow-book/:id", async (req, res) => {
+// router.put("/join/borrow-book/:id", userRefVa1idation, bookRefVa1idation, async (req, res) => {
 //     const _borrow = req.body;
 //     const { id } = req.params;
 //     const book = await Book.findByPk(id);

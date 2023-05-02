@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 
 // VALIDATION
 const { validationResult } = require('express-validator');
-const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/auth-validation.middleware")
+const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/fields-validation.middleware")
 
 // GENERATE ACCESS TOKEN
 const generateAccessToken = (userData) => {

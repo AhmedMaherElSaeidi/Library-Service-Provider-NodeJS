@@ -93,7 +93,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
 // JOIN OPERATIONS
 // GET BOOK TABLE JOINED WITH USER & BOOK TABLES RECORDS
-router.get("/join/book", async (req, res) => {
+router.get("/join/user-book", async (req, res) => {
     const join = await User.findAll({ include: Book, });
 
     res.status(201);
@@ -101,23 +101,23 @@ router.get("/join/book", async (req, res) => {
 });
 
 // GET bOOK TABLE JOINED WITH USER & BOOK TABLES SPECIFIC RECORD
-router.get("/join/book/:id", async (req, res) => {
+router.get("/join/user-book/:id", async (req, res) => {
     const { id } = req.params;
-    const book = await User.findOne({
+    const user = await User.findOne({
         user: { user_id: id },
         include: Book,
     });
 
-    if (book === null) {
+    if (user === null) {
         res.status(404);
         res.json({
-            message: `No book record with id ${id} was found.`,
+            message: `No user record with id ${id} was found.`,
         });
         return;
     }
 
     res.status(201);
-    res.json(book);
+    res.json(user);
 });
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { Book, Category } = require("../models/index.model");
-
+const { categoryRefVa1idation } = require("../middleware/fields-validation.middleware");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, async (req, res) => {
+router.post('/', categoryRefVa1idation, adminAuth, async (req, res) => {
     const _book = req.body;
     try {
         const book = await Book.create(_book);
@@ -42,7 +42,7 @@ router.post('/', adminAuth, async (req, res) => {
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', adminAuth, async (req, res) => {
+router.put('/:id', adminAuth, categoryRefVa1idation, async (req, res) => {
     const { id } = req.params;
     const book = await Book.findOne({ where: { book_id: id } });
 
