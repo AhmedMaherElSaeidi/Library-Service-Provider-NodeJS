@@ -10,8 +10,8 @@ const authRouter = require('./routes/authenication.route');
 
 // Create App
 const app = express();
-const PORT = process.env.PORT || 4600;
-const HOST = process.env.HOST || "localhost";
+const PORT = process.env.SERVER_PORT;
+const HOST = process.env.SERVER_HOST;
 
 // Parse request body data
 app.use(bodyParser.urlencoded({ extended: true }));
