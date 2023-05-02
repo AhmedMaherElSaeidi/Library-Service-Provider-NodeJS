@@ -5,7 +5,7 @@ const { Category, Book } = require("../models/index.model");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
-    const category = await Category.findAll();
+    const category = await Category.findAll({attributes: ["category_id", "category"]});
 
     res.statusCode = 201;
     res.json(category);
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 // GET REQUEST => GET[INDEX]
 router.get('/:id', async (req, res) => {
     const { id } = req.params;
-    const category = await Category.findOne({ where: { book_id: id } });
+    const category = await Category.findOne({ attributes: ["category_id", "category"], where: { category_id: id } });
 
     if (category === null) {
         res.status(404);
@@ -46,7 +46,7 @@ router.put('/:id', adminAuth, async (req, res) => {
     const { id } = req.params;
     const category = await Category.findOne({ where: { category_id: id } });
 
-    if (book === null) {
+    if (category === null) {
         res.status(404);
         res.json({
             message: `No category with id ${id} was found.`,
@@ -75,9 +75,9 @@ router.put('/:id', adminAuth, async (req, res) => {
 // DELETE REQUEST => DELETE
 router.delete('/:id', adminAuth, async (req, res) => {
     const { id } = req.params;
-    const catgory = await Category.findOne({ where: { catgory_id: id } });
+    const category = await Category.findOne({ where: { category_id: id } });
 
-    if (catgory === null) {
+    if (category === null) {
         res.status(404);
         res.json({
             message: `No catgory with id ${id} was found.`,
@@ -85,7 +85,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
         return;
     }
 
-    await Category.destroy({ where: { catgory_id: id, } });
+    await Category.destroy({ where: { category_id: id, } });
 
     res.status(201);
     res.json({ message: `Catgory with id ${id} has been removed.` });
@@ -94,7 +94,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
 // JOIN OPERATIONS
 // GET CATEGORY TABLE JOINED WITH BOOK TABLE
 router.get("/join/category-book", async (req, res) => {
-    const join = await Category.findAll({ include: Book, });
+    const join = await Category.findAll({ attributes: ["category_id", "category"], include: Book, });
 
     res.status(201);
     res.json(join);
@@ -104,6 +104,7 @@ router.get("/join/category-book", async (req, res) => {
 router.get("/join/category-book/:id", async (req, res) => {
     const { id } = req.params;
     const category = await Category.findOne({
+        attributes: ["category_id", "category"],
         category: { category_id: id },
         include: Book,
     });
