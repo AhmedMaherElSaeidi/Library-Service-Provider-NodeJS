@@ -36,7 +36,7 @@ router.post('/', adminAuth, async (req, res) => {
         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.`, borrow });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem creating new borrow record.\n${err}`);
+        res.json({ message: `there is a problem creating new borrow record.\n${err}` });
     }
 })
 
@@ -67,7 +67,7 @@ router.put('/:id', adminAuth, async (req, res) => {
         res.json({ message: `borrow with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem updating borrow of id ${id}.\n${err}`);
+        res.json({ message: `there is a problem updating borrow of id ${id}.\n${err}` });
     }
 })
 
