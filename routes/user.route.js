@@ -1,7 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { User, Book } = require("../models/index.model");
-const encrypt = require('password-hash');
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -31,7 +30,6 @@ router.get('/:id', async (req, res) => {
 // POST REQUEST => CREATE
 router.post('/', adminAuth, async (req, res) => {
     const _user = req.body;
-    _user.password = encrypt.generate(_user.password);
     try {
         const user = await User.create(_user);
         res.status(201);
@@ -57,7 +55,6 @@ router.put('/:id', adminAuth, async (req, res) => {
 
     try {
         const _user = req.body;
-        if (_user.password) _user.password = encrypt.generate(_user.password);
 
         await User.update(
             { ..._user },
