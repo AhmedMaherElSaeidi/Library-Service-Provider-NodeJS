@@ -1,6 +1,7 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { Borrow, User, Book } = require("../models/index.model");
+const { validationResult } = require('express-validator');
 const { userRefVa1idation, bookRefVa1idation } = require("../middleware/fields-validation.middleware");
 
 // GET REQUEST => GET
@@ -32,6 +33,13 @@ router.get('/:id', async (req, res) => {
 router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
     const _borrow = req.body;
     try {
+        const err = validationResult(req);
+        if (!err.isEmpty()) {
+            res.statusCode = 400;
+            res.json({ message: err.array() });
+            return;
+        }
+
         const borrow = await Borrow.create(_borrow);
         res.status(201);
         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.`, borrow });
@@ -43,6 +51,13 @@ router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, re
 
 // PUT REQUEST => UPDATE
 router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
+    const err = validationResult(req);
+    if (!err.isEmpty()) {
+        res.statusCode = 400;
+        res.json({ message: err.array() });
+        return;
+    }
+
     const { id } = req.params;
     const borrow = await Borrow.findOne({ where: { borrow_id: id } });
 
