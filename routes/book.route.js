@@ -1,6 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { Book } = require("../models/index.model");
+const { Book, Category } = require("../models/index.model");
 
 
 // GET REQUEST => GET
@@ -91,4 +91,31 @@ router.delete('/:id', adminAuth, async (req, res) => {
     res.json({ message: `Book with id ${id} has been removed.` });
 })
 
+// JOIN OPERATIONS
+router.get("/join/book-category", async (req, res) => {
+    const join = await Book.findAll({ include: Category });
+
+    res.status(201);
+    res.json(join);
+});
+
+// GET bOOK TABLE JOINED WITH USER & BOOK TABLES SPECIFIC RECORD
+router.get("/join/book-category/:id", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findOne({
+        book: { book_id: id },
+        include: Category,
+    });
+
+    if (book === null) {
+        res.status(404);
+        res.json({
+            message: `No book record with id ${id} was found.`,
+        });
+        return;
+    }
+
+    res.status(201);
+    res.json(book);
+});
 module.exports = router;
