@@ -37,7 +37,7 @@ router.post('/', adminAuth, async (req, res) => {
         res.json({ message: `Book with id ${book.book_id} has been created.`, book });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem creating new book.\n${err}`);
+        res.json({ message: `there is a problem creating new book.\n${err}` });
     }
 })
 
@@ -68,7 +68,7 @@ router.put('/:id', adminAuth, async (req, res) => {
         res.json({ message: `Book with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.send(`there is a problem updating book of id ${id}.\n${err}`);
+        res.json({ message: `there is a problem updating book of id ${id}.\n${err}` });
     }
 })
 
