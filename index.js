@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const booksRouter = require('./routes/book.route');
 const usersRouter = require('./routes/user.route');
 const borrowsRouter = require('./routes/borrow.route');
+const authRouter = require('./routes/authenication.route');
 
 // Create App
 const app = express();
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 app.use("/api/books", booksRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/borrows", borrowsRouter);
+app.use("/api/auth", authRouter);
 
 // Listen to requests
 app.listen(PORT, HOST, (res) => {
