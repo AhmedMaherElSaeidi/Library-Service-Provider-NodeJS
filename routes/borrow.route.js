@@ -119,4 +119,37 @@ router.get("/join/user-book/:id", async (req, res) => {
     res.json(borrow);
 });
 
+// POST BORROW RECORD JOINED WITH BOOK TABLE
+// router.put("/join/borrow-book/:id", async (req, res) => {
+//     const _borrow = req.body;
+//     const { id } = req.params;
+//     const book = await Book.findByPk(id);
+
+//     if (book === null) {
+//         res.status(404);
+//         res.json({
+//             message: `No book with id ${id} was found.`,
+//         });
+//         return;
+//     }
+
+//     try {
+//         const borrow = await dep.createStudent(_borrow);
+//         await Book.update(
+//             { ..._borrow },
+//             {
+//                 where: {
+//                     book_id: id,
+//                 },
+//             }
+//         );
+//         res.status(201);
+//         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.\nBook has been updated`, borrow });
+//     } catch (err) {
+//         res.status(400);
+//         res.send(`there is a problem creating new borrow record.\nBook hasn't been updated\n${err}`);
+//     }
+
+// });
+
 module.exports = router;

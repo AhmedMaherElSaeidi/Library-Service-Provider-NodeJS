@@ -1,6 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { User } = require("../models/index.model");
+const { User, Book } = require("../models/index.model");
 const encrypt = require('password-hash');
 
 // GET REQUEST => GET
@@ -58,7 +58,7 @@ router.put('/:id', adminAuth, async (req, res) => {
     try {
         const _user = req.body;
         if (_user.password) _user.password = encrypt.generate(_user.password);
-        
+
         await User.update(
             { ..._user },
             {
@@ -93,5 +93,34 @@ router.delete('/:id', adminAuth, async (req, res) => {
     res.status(201);
     res.json({ message: `User with id ${id} has been removed.` });
 })
+
+// JOIN OPERATIONS
+// GET BOOK TABLE JOINED WITH USER & BOOK TABLES RECORDS
+router.get("/join/book", async (req, res) => {
+    const join = await User.findAll({ include: Book, });
+
+    res.status(201);
+    res.json(join);
+});
+
+// GET bOOK TABLE JOINED WITH USER & BOOK TABLES SPECIFIC RECORD
+router.get("/join/book/:id", async (req, res) => {
+    const { id } = req.params;
+    const book = await User.findOne({
+        user: { user_id: id },
+        include: Book,
+    });
+
+    if (book === null) {
+        res.status(404);
+        res.json({
+            message: `No book record with id ${id} was found.`,
+        });
+        return;
+    }
+
+    res.status(201);
+    res.json(book);
+});
 
 module.exports = router;
