@@ -2,6 +2,8 @@ const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { User, Book } = require("../models/index.model");
 const bcrypt = require("bcrypt");
+const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/fields-validation.middleware")
+
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -29,8 +31,15 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, async (req, res) => {
+router.post('/', adminAuth, usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation, async (req, res) => {
     try {
+        const err = validationResult(req);
+        if (!err.isEmpty()) {
+            res.statusCode = 400;
+            res.json({ message: err.array() });
+            return;
+        }
+
         const _user = req.body;
 
         const saltRounds = 10;
@@ -69,7 +78,7 @@ router.put('/:id', adminAuth, async (req, res) => {
             const hashedPassword = await bcrypt.hash(_user.password, salt);
             _user.password = hashedPassword;
         }
-        
+
         await User.update(
             { ..._user },
             {
