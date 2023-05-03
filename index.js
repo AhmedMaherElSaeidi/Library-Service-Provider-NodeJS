@@ -1,6 +1,7 @@
 // imports
 const express = require('express');
 const bodyParser = require('body-parser');
+const loggedInAuth = require("./middleware/auth.middleware");
 
 // Import API ENDPOINTS ROUTES
 const booksRouter = require('./routes/book.route');
@@ -20,8 +21,8 @@ app.use(bodyParser.json());
 
 // Middlewares (Send request to specific endpoints)
 app.use("/api/books", booksRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/borrows", borrowsRouter);
+app.use("/api/users", loggedInAuth, usersRouter);
+app.use("/api/borrows", loggedInAuth, borrowsRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/auth", authRouter);
 

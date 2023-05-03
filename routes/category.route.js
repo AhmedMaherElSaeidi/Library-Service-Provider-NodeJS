@@ -1,5 +1,6 @@
-const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
+const adminAuth = require("../middleware/admin.middleware");
+const loggedInAuth = require("../middleware/auth.middleware");
 const { Category, Book } = require("../models/index.model");
 
 
@@ -29,7 +30,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, async (req, res) => {
+router.post('/', loggedInAuth, adminAuth, async (req, res) => {
     const _category = req.body;
     try {
         const category = await Category.create(_category);
@@ -42,7 +43,7 @@ router.post('/', adminAuth, async (req, res) => {
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', adminAuth, async (req, res) => {
+router.put('/:id', loggedInAuth, adminAuth, async (req, res) => {
     const { id } = req.params;
     const category = await Category.findOne({ where: { category_id: id } });
 
@@ -73,7 +74,7 @@ router.put('/:id', adminAuth, async (req, res) => {
 })
 
 // DELETE REQUEST => DELETE
-router.delete('/:id', adminAuth, async (req, res) => {
+router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     const { id } = req.params;
     const category = await Category.findOne({ where: { category_id: id } });
 
