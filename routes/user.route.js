@@ -2,6 +2,7 @@ const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
 const { User, Book } = require("../models/index.model");
 const bcrypt = require("bcrypt");
+const { validationResult } = require('express-validator');
 const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/fields-validation.middleware")
 
 
