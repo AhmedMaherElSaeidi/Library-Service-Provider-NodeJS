@@ -52,7 +52,7 @@ router.post('/', loggedInAuth, adminAuth, upload.single('photo'), categoryRefVa1
         _book.photo = req.file.filename;
         const book = await Book.create(_book);
         res.status(201);
-        res.json({ message: `Book with id ${book.book_id} has been created.`, book });
+        res.json({ message: [{ msg: `Book with id ${book.book_id} has been created.`, book }] });
     } catch (err) {
         res.status(400);
         res.json({ message: [{ msg: `there is a problem creating new book.\n${err}` }] });
@@ -90,7 +90,7 @@ router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1ida
             }
         );
         res.status(201);
-        res.json({ message: `Book with id ${id} has been updated.` });
+        res.json({ message: [{msg: `Book with id ${id} has been updated.`}] });
     } catch (err) {
         res.status(400);
         res.json({ message: [{msg: `there is a problem updating book of id ${id}.\n${err}`}] });
@@ -113,7 +113,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     await Book.destroy({ where: { book_id: id, } });
 
     res.status(201);
-    res.json({ message: `Book with id ${id} has been removed.` });
+    res.json({ message: [{msg: `Book with id ${id} has been removed.`}] });
 })
 
 // JOIN OPERATIONS
