@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: `No borrow record with id ${id} was found.`,
+            message: [{msg: `No borrow record with id ${id} was found.`}],
         });
         return;
     }
@@ -45,7 +45,7 @@ router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, re
         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.`, borrow });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem creating new borrow record.\n${err}` });
+        res.json({ message: [{msg: `there is a problem creating new borrow record.\n${err}`}] });
     }
 })
 
@@ -64,7 +64,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: `No borrow record with id ${id} was found.`,
+            message: [{msg: `No borrow record with id ${id} was found.`}],
         });
         return;
     }
@@ -83,7 +83,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
         res.json({ message: `borrow with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem updating borrow of id ${id}.\n${err}` });
+        res.json({ message: [{msg: `there is a problem updating borrow of id ${id}.\n${err}`}] });
     }
 })
 
@@ -95,7 +95,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: `No borrow record with id ${id} was found.`,
+            message: [{msg: `No borrow record with id ${id} was found.`}],
         });
         return;
     }
@@ -126,7 +126,7 @@ router.get("/join/user-book/:id", async (req, res) => {
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: `No borrow record with id ${id} was found.`,
+            message: [{mgs: `No borrow record with id ${id} was found.`}],
         });
         return;
     }
