@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
     if (user === null) {
         res.status(404);
         res.json({
-            message: `No user with id ${id} was found.`,
+            message: [{ msg: `No user with id ${id} was found.` }],
         });
         return;
     }
@@ -53,7 +53,7 @@ router.post('/', adminAuth, usernameVa1idation, emailVa1idation, passwordVa1idat
         res.json({ message: `User with id ${user.user_id} has been created.`, user });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem creating new user.\n${err}` });
+        res.json({ message: [{ msg: `there is a problem creating new user.\n${err}` }] });
     }
 })
 
@@ -65,7 +65,7 @@ router.put('/:id', adminAuth, async (req, res) => {
     if (user === null) {
         res.status(404);
         res.json({
-            message: `No user with id ${id} was found.`,
+            message: [{ msg: `No user with id ${id} was found.` }],
         });
         return;
     }
@@ -92,7 +92,7 @@ router.put('/:id', adminAuth, async (req, res) => {
         res.json({ message: `User with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem updating user of id ${id}.\n${err}` });
+        res.json({ message: [{ msg: `there is a problem updating user of id ${id}.\n${err}` }] });
     }
 })
 
@@ -104,7 +104,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     if (user === null) {
         res.status(404);
         res.json({
-            message: `No user with id ${id} was found.`,
+            message: [{msg: `No user with id ${id} was found.`}],
         });
         return;
     }
@@ -135,7 +135,7 @@ router.get("/join/user-book/:id", async (req, res) => {
     if (user === null) {
         res.status(404);
         res.json({
-            message: `No user record with id ${id} was found.`,
+            message: [{msg: `No user record with id ${id} was found.`}],
         });
         return;
     }
