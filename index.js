@@ -23,6 +23,7 @@ app.use(cors());
 // Parse request body data
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static('uploads'))
 
 // Middlewares (Send request to specific endpoints)
 app.use("/api/books", booksRouter);

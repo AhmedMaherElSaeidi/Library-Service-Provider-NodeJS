@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const adminAuth = require("../middleware/admin.middleware");
 const loggedInAuth = require("../middleware/auth.middleware");
+const upload = require("../middleware/multerFileHandler.middleware")
+
 const { Book, Category } = require("../models/index.model");
 const { validationResult } = require('express-validator');
 const { categoryRefVa1idation, userRefVa1idation } = require("../middleware/fields-validation.middleware");
@@ -31,7 +33,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1idation, async (req, res) => {
+router.post('/', loggedInAuth, adminAuth, upload.single('photo'), categoryRefVa1idation, userRefVa1idation, async (req, res) => {
     const _book = req.body;
     try {
         const err = validationResult(req);
@@ -41,6 +43,13 @@ router.post('/', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1idati
             return;
         }
 
+        if(!req.file){
+            res.statusCode = 400;
+            res.json({ message: [{ msg: "File must be choosen as a book cover."}] });
+            return;
+        }
+
+        _book.photo = req.file.filename;
         const book = await Book.create(_book);
         res.status(201);
         res.json({ message: `Book with id ${book.book_id} has been created.`, book });

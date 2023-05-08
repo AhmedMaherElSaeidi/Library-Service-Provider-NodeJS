@@ -30,10 +30,10 @@ Borrow.belongsTo(User, { foreignKey: 'user_id', as: 'user_borrow' });
 User.hasMany(Book, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-  foreignKey: 'book_id',
+  foreignKey: 'user_id',
   as: 'user_book'
 });
-Book.belongsTo(User, { foreignKey: 'book_id', as: 'user_book' });
+Book.belongsTo(User, { foreignKey: 'user_id', as: 'user_book' });
 
 // one to many (book and borrow tables)
 Book.hasMany(Borrow, {
