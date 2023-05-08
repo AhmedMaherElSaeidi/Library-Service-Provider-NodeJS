@@ -21,33 +21,46 @@ const Category = CategoryModel(db, Sequelize);
 User.hasMany(Borrow, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-  foreignKey: 'user_id'
+  foreignKey: 'user_id',
+  as: 'user_borrow'
 });
-Borrow.belongsTo(User, { foreignKey: 'user_id'});
+Borrow.belongsTo(User, { foreignKey: 'user_id', as: 'user_borrow' });
+
+// one to many (user and book tables)
+User.hasMany(Book, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+  foreignKey: 'book_id',
+  as: 'user_book'
+});
+Book.belongsTo(User, { foreignKey: 'book_id', as: 'user_book' });
 
 // one to many (book and borrow tables)
 Book.hasMany(Borrow, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-  foreignKey: 'book_id'
+  foreignKey: 'book_id',
+  as: 'book_borrow'
 });
-Borrow.belongsTo(Book, { foreignKey: 'book_id' });
+Borrow.belongsTo(Book, { foreignKey: 'book_id', as: 'book_borrow' });
 
 // many to one (category and book tables)
 Category.hasMany(Book, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-  foreignKey: 'category_id'
+  foreignKey: 'category_id',
+  as: 'category_book'
 });
-Book.belongsTo(Category, { foreignKey: 'category_id' });
+Book.belongsTo(Category, { foreignKey: 'category_id', as: 'category_book' });
 
 // many to one (Gender and User tables)
 Gender.hasMany(User, {
   onDelete: "CASCADE",
   onUpdate: "CASCADE",
-  foreignKey: 'gender_id'
+  foreignKey: 'gender_id',
+  as: 'gender_user'
 });
-User.belongsTo(Gender, { foreignKey: 'gender_id' });
+User.belongsTo(Gender, { foreignKey: 'gender_id', as: 'gender_user' });
 
 // convert models to tables
 // force:false => if tables are not created, create these tables

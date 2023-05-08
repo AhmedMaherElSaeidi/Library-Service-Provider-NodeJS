@@ -1,6 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { User, Book } = require("../models/index.model");
+const { User, Book, Gender } = require("../models/index.model");
 const bcrypt = require("bcrypt");
 const { validationResult } = require('express-validator');
 const { usernameVa1idation, emailVa1idation, passwordVa1idation, phoneVa1idation, genderRefVa1idation } = require("../middleware/fields-validation.middleware")
@@ -104,7 +104,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     if (user === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No user with id ${id} was found.`}],
+            message: [{ msg: `No user with id ${id} was found.` }],
         });
         return;
     }
@@ -117,8 +117,26 @@ router.delete('/:id', adminAuth, async (req, res) => {
 
 // JOIN OPERATIONS
 // GET BOOK TABLE JOINED WITH USER & BOOK TABLES RECORDS
+router.get("/join/user-gender", async (req, res) => {
+    const join = await User.findAll({
+        include: {
+            model: Gender,
+            attributes: ['gender'],
+            as: 'gender_user'
+        },
+    });
+
+    res.status(201);
+    res.json(join);
+});
+
 router.get("/join/user-book", async (req, res) => {
-    const join = await User.findAll({ include: Book, });
+    const join = await User.findAll({
+        include: {
+            model: Book,
+            as: 'user_book'
+        },
+    });
 
     res.status(201);
     res.json(join);
@@ -129,13 +147,16 @@ router.get("/join/user-book/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findOne({
         where: { user_id: id },
-        include: Book,
+        include: {
+            model: Book,
+            as: 'user_book'
+        }
     });
 
     if (user === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No user record with id ${id} was found.`}],
+            message: [{ msg: `No user record with id ${id} was found.` }],
         });
         return;
     }

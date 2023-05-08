@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No borrow record with id ${id} was found.`}],
+            message: [{ msg: `No borrow record with id ${id} was found.` }],
         });
         return;
     }
@@ -45,7 +45,7 @@ router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, re
         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.`, borrow });
     } catch (err) {
         res.status(400);
-        res.json({ message: [{msg: `there is a problem creating new borrow record.\n${err}`}] });
+        res.json({ message: [{ msg: `there is a problem creating new borrow record.\n${err}` }] });
     }
 })
 
@@ -64,7 +64,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No borrow record with id ${id} was found.`}],
+            message: [{ msg: `No borrow record with id ${id} was found.` }],
         });
         return;
     }
@@ -83,7 +83,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
         res.json({ message: `borrow with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.json({ message: [{msg: `there is a problem updating borrow of id ${id}.\n${err}`}] });
+        res.json({ message: [{ msg: `there is a problem updating borrow of id ${id}.\n${err}` }] });
     }
 })
 
@@ -95,7 +95,7 @@ router.delete('/:id', adminAuth, async (req, res) => {
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No borrow record with id ${id} was found.`}],
+            message: [{ msg: `No borrow record with id ${id} was found.` }],
         });
         return;
     }
@@ -109,7 +109,15 @@ router.delete('/:id', adminAuth, async (req, res) => {
 // JOIN OPERATIONS
 // GET BORROW TABLE JOINED WITH USER & BOOK TABLES RECORDS
 router.get("/join/user-book", async (req, res) => {
-    const join = await Borrow.findAll({ include: [User, Book], });
+    const join = await Borrow.findAll({
+        include: [{
+            model: User,
+            as: 'user_borrow'
+        }, {
+            model: Book,
+            as: 'book_borrow'
+        }],
+    });
 
     res.status(201);
     res.json(join);
@@ -120,13 +128,19 @@ router.get("/join/user-book/:id", async (req, res) => {
     const { id } = req.params;
     const borrow = await Borrow.findOne({
         where: { borrow_id: id },
-        include: [User, Book],
+        include: [{
+            model: User,
+            as: 'user_borrow'
+        }, {
+            model: Book,
+            as: 'book_borrow'
+        }],
     });
 
     if (borrow === null) {
         res.status(404);
         res.json({
-            message: [{mgs: `No borrow record with id ${id} was found.`}],
+            message: [{ mgs: `No borrow record with id ${id} was found.` }],
         });
         return;
     }

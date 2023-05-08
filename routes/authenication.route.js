@@ -72,7 +72,8 @@ router.post("/login", emailVa1idation, passwordVa1idation, async (req, res) => {
             where: { email: _user.email },
             include: {
                 model: Gender,
-                attributes: ['gender_id', 'gender']
+                as: 'gender_user',
+                attributes: ['gender']
             }
         })
 
@@ -101,7 +102,7 @@ router.post("/login", emailVa1idation, passwordVa1idation, async (req, res) => {
             userID: user.user_id,
             username: user.username,
             email: user.email,
-            gender: user.gender.gender,
+            gender: user.gender_user.gender,
             status: user.status,
             type: user.type,
             borrowCount: user.borrowCount,

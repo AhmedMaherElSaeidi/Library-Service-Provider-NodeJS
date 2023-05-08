@@ -81,7 +81,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No category with id ${id} was found.`}],
+            message: [{ msg: `No category with id ${id} was found.` }],
         });
         return;
     }
@@ -95,7 +95,12 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
 // JOIN OPERATIONS
 // GET CATEGORY TABLE JOINED WITH BOOK TABLE
 router.get("/join/category-book", async (req, res) => {
-    const join = await Category.findAll({ attributes: ["category_id", "category"], include: Book, });
+    const join = await Category.findAll({
+        attributes: ["category_id", "category"], include: {
+            model: Book,
+            as: 'category_book'
+        },
+    });
 
     res.status(201);
     res.json(join);
@@ -107,13 +112,16 @@ router.get("/join/category-book/:id", async (req, res) => {
     const category = await Category.findOne({
         attributes: ["category_id", "category"],
         where: { category_id: id },
-        include: Book,
+        include: {
+            model: Book,
+            as: 'category_book'
+        }
     });
 
     if (category === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No category record with id ${id} was found.`}],
+            message: [{ msg: `No category record with id ${id} was found.` }],
         });
         return;
     }
