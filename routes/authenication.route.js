@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 
 // VALIDATION
 const { validationResult } = require('express-validator');
-const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/fields-validation.middleware")
+const { usernameVa1idation, emailVa1idation, passwordVa1idation, phoneVa1idation, genderRefVa1idation } = require("../middleware/fields-validation.middleware")
 
 // GENERATE ACCESS TOKEN
 const generateAccessToken = (userData) => {
@@ -17,7 +17,7 @@ const generateAccessToken = (userData) => {
 }
 
 // REGISTER
-router.post("/register", usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation, async (req, res) => {
+router.post("/register", usernameVa1idation, emailVa1idation,genderRefVa1idation, passwordVa1idation, phoneVa1idation, async (req, res) => {
     try {
         // CHECK VALIDATION RESULT
         const err = validationResult(req);

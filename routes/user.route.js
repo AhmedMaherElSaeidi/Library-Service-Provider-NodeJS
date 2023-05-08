@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { User, Book } = require("../models/index.model");
 const bcrypt = require("bcrypt");
 const { validationResult } = require('express-validator');
-const { usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation } = require("../middleware/fields-validation.middleware")
+const { usernameVa1idation, emailVa1idation, passwordVa1idation, phoneVa1idation, genderRefVa1idation } = require("../middleware/fields-validation.middleware")
 
 
 // GET REQUEST => GET
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, usernameVa1idation, emailVa1idation, passwordVa1idation, borrowCountVa1idation, phoneVa1idation, async (req, res) => {
+router.post('/', adminAuth, usernameVa1idation, emailVa1idation, passwordVa1idation, genderRefVa1idation, phoneVa1idation, async (req, res) => {
     try {
         const err = validationResult(req);
         if (!err.isEmpty()) {

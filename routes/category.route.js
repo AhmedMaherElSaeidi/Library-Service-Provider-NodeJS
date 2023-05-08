@@ -81,7 +81,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: `No catgory with id ${id} was found.`,
+            message: `No category with id ${id} was found.`,
         });
         return;
     }
@@ -89,7 +89,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     await Category.destroy({ where: { category_id: id, } });
 
     res.status(201);
-    res.json({ message: `Catgory with id ${id} has been removed.` });
+    res.json({ message: `Category with id ${id} has been removed.` });
 })
 
 // JOIN OPERATIONS
@@ -121,4 +121,5 @@ router.get("/join/category-book/:id", async (req, res) => {
     res.status(201);
     res.json(category);
 });
+
 module.exports = router;
