@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     if (gender === null) {
         res.status(404);
         res.json({
-            message: `No gender with id ${id} was found.`,
+            message: [{msg: `No gender with id ${id} was found.`}],
         });
         return;
     }
@@ -38,7 +38,7 @@ router.post('/', loggedInAuth, adminAuth, async (req, res) => {
         res.json({ message: `Gender with id ${gender.gender_id} has been created.`, gender });
     } catch (err) {
         res.status(400);
-        res.json({message: `there is a problem creating new gender.\n${err}`});
+        res.json({message: [{msg: `there is a problem creating new gender.\n${err}`}]});
     }
 })
 
@@ -50,7 +50,7 @@ router.put('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (gender === null) {
         res.status(404);
         res.json({
-            message: `No gender with id ${id} was found.`,
+            message: [{msg: `No gender with id ${id} was found.`}],
         });
         return;
     }
@@ -69,7 +69,7 @@ router.put('/:id', loggedInAuth, adminAuth, async (req, res) => {
         res.json({ message: `Gender with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.json({message: `there is a problem updating gender of id ${id}.\n${err}`});
+        res.json({message: [{msg: `there is a problem updating gender of id ${id}.\n${err}`}]});
     }
 })
 
@@ -81,7 +81,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (gender === null) {
         res.status(404);
         res.json({
-            message: `No gender with id ${id} was found.`,
+            message: [{msg: `No gender with id ${id} was found.`}],
         });
         return;
     }
