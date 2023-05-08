@@ -6,7 +6,7 @@ const { Category, Book } = require("../models/index.model");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
-    const category = await Category.findAll({attributes: ["category_id", "category"]});
+    const category = await Category.findAll({ attributes: ["category_id", "category"] });
 
     res.statusCode = 201;
     res.json(category);
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: `No category with id ${id} was found.`,
+            message: [{ mgs: `No category with id ${id} was found.` }],
         });
         return;
     }
@@ -38,7 +38,7 @@ router.post('/', loggedInAuth, adminAuth, async (req, res) => {
         res.json({ message: `Category with id ${category.category_id} has been created.`, category });
     } catch (err) {
         res.status(400);
-        res.json({message: `there is a problem creating new category.\n${err}`});
+        res.json({ message: [{ msg: `there is a problem creating new category.\n${err}` }] });
     }
 })
 
@@ -50,7 +50,7 @@ router.put('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: `No category with id ${id} was found.`,
+            message: [{ msg: `No category with id ${id} was found.` }],
         });
         return;
     }
@@ -69,7 +69,7 @@ router.put('/:id', loggedInAuth, adminAuth, async (req, res) => {
         res.json({ message: `Category with id ${id} has been updated.` });
     } catch (err) {
         res.status(400);
-        res.json({message: `there is a problem updating category of id ${id}.\n${err}`});
+        res.json({ message: [{ msg: `there is a problem updating category of id ${id}.\n${err}` }] });
     }
 })
 
@@ -81,7 +81,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: `No category with id ${id} was found.`,
+            message: [{msg: `No category with id ${id} was found.`}],
         });
         return;
     }
@@ -113,7 +113,7 @@ router.get("/join/category-book/:id", async (req, res) => {
     if (category === null) {
         res.status(404);
         res.json({
-            message: `No category record with id ${id} was found.`,
+            message: [{msg: `No category record with id ${id} was found.`}],
         });
         return;
     }
