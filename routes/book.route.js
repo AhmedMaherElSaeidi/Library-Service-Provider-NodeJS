@@ -21,7 +21,7 @@ router.get('/:id', async (req, res) => {
     if (book === null) {
         res.status(404);
         res.json({
-            message: `No book with id ${id} was found.`,
+            message: [{ msg: `No book with id ${id} was found.` }],
         });
         return;
     }
@@ -43,29 +43,29 @@ router.post('/', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1idati
 
         const book = await Book.create(_book);
         res.status(201);
-        res.json({ message: `Book with id ${book.book_id} has been created.`, book });
+        res.json({ message: [{ msg: `Book with id ${book.book_id} has been created.`, book }] });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem creating new book.\n${err}` });
+        res.json({ message: [{ msg: `there is a problem creating new book.\n${err}` }] });
     }
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1idation, async (req, res) => {    
+router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1idation, async (req, res) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
         res.statusCode = 400;
         res.json({ message: err.array() });
         return;
     }
-    
+
     const { id } = req.params;
     const book = await Book.findOne({ where: { book_id: id } });
 
     if (book === null) {
         res.status(404);
         res.json({
-            message: `No book with id ${id} was found.`,
+            message: [{msg: `No book with id ${id} was found.`}],
         });
         return;
     }
@@ -81,10 +81,10 @@ router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1ida
             }
         );
         res.status(201);
-        res.json({ message: `Book with id ${id} has been updated.` });
+        res.json({ message: [{msg: `Book with id ${id} has been updated.`}] });
     } catch (err) {
         res.status(400);
-        res.json({ message: `there is a problem updating book of id ${id}.\n${err}` });
+        res.json({ message: [{msg: `there is a problem updating book of id ${id}.\n${err}`}] });
     }
 })
 
@@ -96,7 +96,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     if (book === null) {
         res.status(404);
         res.json({
-            message: `No book with id ${id} was found.`,
+            message: [{msg: `No book with id ${id} was found.`}],
         });
         return;
     }
@@ -104,7 +104,7 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     await Book.destroy({ where: { book_id: id, } });
 
     res.status(201);
-    res.json({ message: `Book with id ${id} has been removed.` });
+    res.json({ message: [{msg: `Book with id ${id} has been removed.`}] });
 })
 
 // JOIN OPERATIONS
@@ -123,11 +123,10 @@ router.get("/join/book-category/:id", async (req, res) => {
         include: { model: Category, attributes: ["category_id", "category"] },
     });
 
-
     if (book === null) {
         res.status(404);
         res.json({
-            message: `No book record with id ${id} was found.`,
+            message: [{msg: `No book record with id ${id} was found.`}],
         });
         return;
     }
@@ -135,4 +134,5 @@ router.get("/join/book-category/:id", async (req, res) => {
     res.status(201);
     res.json(book);
 });
+
 module.exports = router;

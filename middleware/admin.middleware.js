@@ -3,7 +3,7 @@ const adminAuth = (req, res, next) => {
 
     if (user.type != 'librarian') {
         res.statusCode = 403;
-        res.send("Authorization Failed.");
+        res.json({message : [{msg: "Authorization Failed."}]});
     }
 
     next();
