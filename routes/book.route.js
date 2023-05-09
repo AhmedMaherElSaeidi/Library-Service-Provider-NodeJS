@@ -3,7 +3,7 @@ const adminAuth = require("../middleware/admin.middleware");
 const loggedInAuth = require("../middleware/auth.middleware");
 const upload = require("../middleware/multerFileHandler.middleware")
 
-const { Book, Category } = require("../models/index.model");
+const { Book, Category, Borrow } = require("../models/index.model");
 const { validationResult } = require('express-validator');
 const { categoryRefVa1idation, userRefVa1idation } = require("../middleware/fields-validation.middleware");
 
@@ -43,9 +43,9 @@ router.post('/', loggedInAuth, adminAuth, upload.single('photo'), categoryRefVa1
             return;
         }
 
-        if(!req.file){
+        if (!req.file) {
             res.statusCode = 400;
-            res.json({ message: [{ msg: "File must be choosen as a book cover."}] });
+            res.json({ message: [{ msg: "File must be choosen as a book cover." }] });
             return;
         }
 
@@ -74,7 +74,7 @@ router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1ida
     if (book === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No book with id ${id} was found.`}],
+            message: [{ msg: `No book with id ${id} was found.` }],
         });
         return;
     }
@@ -90,22 +90,23 @@ router.put('/:id', loggedInAuth, adminAuth, categoryRefVa1idation, userRefVa1ida
             }
         );
         res.status(201);
-        res.json({ message: [{msg: `Book with id ${id} has been updated.`}] });
+        res.json({ message: [{ msg: `Book with id ${id} has been updated.` }] });
     } catch (err) {
         res.status(400);
-        res.json({ message: [{msg: `there is a problem updating book of id ${id}.\n${err}`}] });
+        res.json({ message: [{ msg: `there is a problem updating book of id ${id}.\n${err}` }] });
     }
 })
 
 // DELETE REQUEST => DELETE
 router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
+    const fs = require("fs");
     const { id } = req.params;
     const book = await Book.findOne({ where: { book_id: id } });
 
     if (book === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No book with id ${id} was found.`}],
+            message: [{ msg: `No book with id ${id} was found.` }],
         });
         return;
     }
@@ -113,12 +114,19 @@ router.delete('/:id', loggedInAuth, adminAuth, async (req, res) => {
     await Book.destroy({ where: { book_id: id, } });
 
     res.status(201);
-    res.json({ message: [{msg: `Book with id ${id} has been removed.`}] });
+    res.json({ message: [{ msg: `Book with id ${id} has been removed.` }] });
 })
 
 // JOIN OPERATIONS
 router.get("/join/book-category", async (req, res) => {
     const join = await Book.findAll({ include: { model: Category, as: 'category_book', attributes: ["category_id", "category"] } });
+
+    res.status(201);
+    res.json(join);
+});
+
+router.get("/join/book-category-borrow", async (req, res) => {
+    const join = await Book.findAll({ include: [{model: Borrow, as: "book_borrow"}, { model: Category, as: 'category_book', attributes: ["category_id", "category"] }] });
 
     res.status(201);
     res.json(join);
@@ -135,7 +143,25 @@ router.get("/join/book-category/:id", async (req, res) => {
     if (book === null) {
         res.status(404);
         res.json({
-            message: [{msg: `No book record with id ${id} was found.`}],
+            message: [{ msg: `No book record with id ${id} was found.` }],
+        });
+        return;
+    }
+
+    res.status(201);
+    res.json(book);
+});
+router.get("/join/book-category-borrow/:id", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findOne({
+        where: { book_id: id },
+        include: [{model: Borrow, as: "book_borrow"}, { model: Category, as: 'category_book', attributes: ["category_id", "category"] }],
+    });
+
+    if (book === null) {
+        res.status(404);
+        res.json({
+            message: [{ msg: `No book record with id ${id} was found.` }],
         });
         return;
     }

@@ -13,7 +13,7 @@ const { usernameVa1idation, emailVa1idation, passwordVa1idation, phoneVa1idation
 
 // GENERATE ACCESS TOKEN
 const generateAccessToken = (userData) => {
-    return jwt.sign(userData, process.env.TOKEN_SECRET, { expiresIn: '3600s' })
+    return jwt.sign(userData, process.env.TOKEN_SECRET, { expiresIn: '10000s' })
 }
 
 // REGISTER

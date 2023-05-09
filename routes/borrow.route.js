@@ -1,8 +1,9 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { Borrow, User, Book } = require("../models/index.model");
+const { Borrow, User, Book, Category } = require("../models/index.model");
 const { validationResult } = require('express-validator');
 const { userRefVa1idation, bookRefVa1idation } = require("../middleware/fields-validation.middleware");
+const { Op } = require("sequelize");
 
 // GET REQUEST => GET
 router.get('/', async (req, res) => {
@@ -30,7 +31,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // POST REQUEST => CREATE
-router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
+router.post('/', userRefVa1idation, bookRefVa1idation, async (req, res) => {
     const _borrow = req.body;
     try {
         const err = validationResult(req);
@@ -50,7 +51,7 @@ router.post('/', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, re
 })
 
 // PUT REQUEST => UPDATE
-router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, res) => {
+router.put('/:id', async (req, res) => {
     const err = validationResult(req);
     if (!err.isEmpty()) {
         res.statusCode = 400;
@@ -80,7 +81,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
             }
         );
         res.status(201);
-        res.json({ message: `borrow with id ${id} has been updated.` });
+        res.json({ message: [{ msg: `borrow with id ${id} has been updated.` }] });
     } catch (err) {
         res.status(400);
         res.json({ message: [{ msg: `there is a problem updating borrow of id ${id}.\n${err}` }] });
@@ -88,7 +89,7 @@ router.put('/:id', adminAuth, userRefVa1idation, bookRefVa1idation, async (req, 
 })
 
 // DELETE REQUEST => DELETE
-router.delete('/:id', adminAuth, async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     const borrow = await Borrow.findOne({ where: { borrow_id: id } });
 
@@ -115,7 +116,8 @@ router.get("/join/user-book", async (req, res) => {
             as: 'user_borrow'
         }, {
             model: Book,
-            as: 'book_borrow'
+            as: 'book_borrow',
+            include: { model: Category, attributes: ['category_id', "category"], as: 'category_book' }
         }],
     });
 
@@ -148,38 +150,5 @@ router.get("/join/user-book/:id", async (req, res) => {
     res.status(201);
     res.json(borrow);
 });
-
-// POST BORROW RECORD JOINED WITH BOOK TABLE
-// router.put("/join/borrow-book/:id", userRefVa1idation, bookRefVa1idation, async (req, res) => {
-//     const _borrow = req.body;
-//     const { id } = req.params;
-//     const book = await Book.findByPk(id);
-
-//     if (book === null) {
-//         res.status(404);
-//         res.json({
-//             message: `No book with id ${id} was found.`,
-//         });
-//         return;
-//     }
-
-//     try {
-//         const borrow = await dep.createStudent(_borrow);
-//         await Book.update(
-//             { ..._borrow },
-//             {
-//                 where: {
-//                     book_id: id,
-//                 },
-//             }
-//         );
-//         res.status(201);
-//         res.json({ message: `Borrow record with id ${borrow.borrow_id} has been created.\nBook has been updated`, borrow });
-//     } catch (err) {
-//         res.status(400);
-//         res.send(`there is a problem creating new borrow record.\nBook hasn't been updated\n${err}`);
-//     }
-
-// });
 
 module.exports = router;

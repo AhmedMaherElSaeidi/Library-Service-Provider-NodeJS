@@ -7,10 +7,6 @@ module.exports = (db, type) => {
             autoIncrement: true,
             primaryKey: true,
         },
-        due_date: {
-            type: type.STRING,
-            allowNull: true
-        },
         return_date: {
             type: type.STRING,
             allowNull: true
