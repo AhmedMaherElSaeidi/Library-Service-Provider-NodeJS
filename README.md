@@ -53,3 +53,90 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/books/:id`
   - Method: `DELETE`
   - Description: Delete a book by ID
+ 
+### Category Routes (`category.route.js`)
+
+- `/api/categories`
+  - Method: `GET`
+  - Description: Get all categories
+
+- `/api/categories/join/category-book`
+  - Method: `GET`
+  - Description: Get all categories joined with the book table
+  
+- `/api/categories/:id`
+  - Method: `GET`
+  - Description: Get a category by ID
+
+- `/api/categories/join/category-book/:id`
+  - Method: `GET`
+  - Description: Get a category by ID joined with the book table
+
+- `/api/categories`
+  - Method: `POST`
+  - Description: Add a new category
+
+- `/api/categories/:id`
+  - Method: `PUT`
+  - Description: Update a category by ID
+
+- `/api/categories/:id`
+  - Method: `DELETE`
+  - Description: Delete a category by ID
+ 
+### Gender Routes (`gender.route.js`)
+
+- `/api/genders`
+  - Method: `GET`
+  - Description: Get all genders
+
+- `/api/genders/:id`
+  - Method: `GET`
+  - Description: Get a gender by ID
+
+- `/api/genders`
+  - Method: `POST`
+  - Description: Add a new gender
+
+- `/api/genders/:id`
+  - Method: `PUT`
+  - Description: Update a gender by ID
+
+- `/api/genders/:id`
+  - Method: `DELETE`
+  - Description: Delete a gender by ID
+
+
+### User Routes (`user.route.js`)
+
+- `/api/users`
+  - Method: `GET`
+  - Description: Get all users
+
+- `/api/users/join/user-gender`
+  - Method: `GET`
+  - Description: Get all users joined with the gender table
+
+- `/api/users/join/user-book`
+  - Method: `GET`
+  - Description: Get all users joined with the book table
+ 
+- `/api/users/:id`
+  - Method: `GET`
+  - Description: Get a user by ID
+
+- `/api/users/join/user-book/:id`
+  - Method: `GET`
+  - Description: Get a user by ID joined with the book table
+
+- `/api/users`
+  - Method: `POST`
+  - Description: Add a new user
+
+- `/api/users/:id`
+  - Method: `PUT`
+  - Description: Update a user by ID
+
+- `/api/users/:id`
+  - Method: `DELETE`
+  - Description: Delete a user by ID
