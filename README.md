@@ -6,6 +6,12 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 
 ## Available APIs
 
+- **Authentication Routes:** [Authentication Routes](#authentication-routes-book-routejs)
+- **Book Routes:** [Book Routes](#book-routes-book-routejs)
+- **Category Routes:** [Category Routes](#category-routes-category-routejs)
+- **Gender Routes:** [Gender Routes](#gender-routes-gender-routejs)
+- **User Routes:** [User Routes](#user-routes-userroutejs)
+- **Borrow Routes:** [Borrow Routes](#borrow-routes-borrowroutejs)
 
 ### Authentication Routes (`authentication.route.js`)
 
