@@ -1,6 +1,6 @@
 const adminAuth = require("../middleware/admin.middleware");
 const router = require('express').Router();
-const { User, Book, Gender } = require("../models/index.model");
+const { User, Book, Gender, Borrow } = require("../models/index.model");
 const bcrypt = require("bcrypt");
 const { validationResult } = require('express-validator');
 const { usernameVa1idation, emailVa1idation, passwordVa1idation, phoneVa1idation, genderRefVa1idation } = require("../middleware/fields-validation.middleware")
@@ -148,8 +148,8 @@ router.get("/join/user-book/:id", async (req, res) => {
     const user = await User.findOne({
         where: { user_id: id },
         include: {
-            model: Book,
-            as: 'user_book'
+            model: Borrow,
+            as: 'user_borrow'
         }
     });
 
