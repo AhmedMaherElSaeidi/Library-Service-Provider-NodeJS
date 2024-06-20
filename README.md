@@ -6,6 +6,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 
 ## Available APIs
 
+
 ### Authentication Routes (`authentication.route.js`)
 
 - `/api/auth/login`
@@ -15,6 +16,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/auth/register`
   - Method: `POST`
   - Description: Register a new user
+
  
 ### Book Routes (`book.route.js`)
 
@@ -53,6 +55,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/books/:id`
   - Method: `DELETE`
   - Description: Delete a book by ID
+
  
 ### Category Routes (`category.route.js`)
 
@@ -83,6 +86,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/categories/:id`
   - Method: `DELETE`
   - Description: Delete a category by ID
+
  
 ### Gender Routes (`gender.route.js`)
 
@@ -140,3 +144,34 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/users/:id`
   - Method: `DELETE`
   - Description: Delete a user by ID
+
+
+### Borrow Routes (`borrow.route.js`)
+
+- `/api/borrows`
+  - Method: `GET`
+  - Description: Get all borrows
+
+- `/api/borrows/join/user-book`
+  - Method: `GET`
+  - Description: Get all borrows joined with the user, and book table
+
+- `/api/borrows/:id`
+  - Method: `GET`
+  - Description: Get a borrow by ID
+
+- `/api/borrows/join/user-book/:id`
+  - Method: `GET`
+  - Description: Get a borrow by ID joined with the user, and book table
+
+- `/api/borrows`
+  - Method: `POST`
+  - Description: Set a new borrow
+
+- `/api/borrows/:id`
+  - Method: `PUT`
+  - Description: Update a borrow by ID
+
+- `/api/borrows/:id`
+  - Method: `DELETE`
+  - Description: Delete a borrow by ID
