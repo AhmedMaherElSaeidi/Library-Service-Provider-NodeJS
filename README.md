@@ -55,7 +55,6 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - **Type:** ENUM('librarian', 'normal')
 - **Description:** The type of user.
 - **Default Value:** normal
-## Available APIs
 
 ---
 
