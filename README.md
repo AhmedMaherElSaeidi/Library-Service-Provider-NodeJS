@@ -4,8 +4,154 @@
 
 The LibraryServer Provider is a comprehensive web solution designed to automate and facilitate the library's operations. It provides functionality for managing books, user accounts, and borrowing activities, ensuring efficient library management.
 
+## Database Models
+
+### User Model
+
+#### user_id
+
+- **Type:** INTEGER
+- **Description:** Unique identifier for each user. Auto-incremented primary key.
+
+#### username
+
+- **Type:** STRING
+- **Description:** The username of the user.
+- **Validation:** Must be between 5 and 20 characters.
+
+#### email
+
+- **Type:** STRING
+- **Description:** The email address of the user.
+- **Unique:** Must be unique.
+- **Validation:** Must be a valid email format.
+
+#### password
+
+- **Type:** STRING
+- **Description:** The password for the user account.
+
+#### phone
+
+- **Type:** STRING(11)
+- **Description:** The phone number of the user.
+- **Validation:** Must be exactly 11 characters.
+
+#### borrowCount
+
+- **Type:** INTEGER
+- **Description:** The number of books the user can borrow.
+- **Default Value:** 3
+- **Validation:** Must be between 1 and 10 and numeric.
+
+#### status
+
+- **Type:** ENUM('active', 'inactive')
+- **Description:** The status of the user account.
+- **Default Value:** inactive
+
+#### type
+
+- **Type:** ENUM('librarian', 'normal')
+- **Description:** The type of user.
+- **Default Value:** normal
 ## Available APIs
 
+---
+
+### Book Model
+
+#### book_id
+
+- **Type:** INTEGER
+- **Description:** Unique identifier for each book. Auto-incremented primary key.
+
+#### ISBN
+
+- **Type:** INTEGER
+- **Description:** International Standard Book Number.
+- **Unique:** Must be unique.
+- **Validation:** Must be numeric.
+
+#### title
+
+- **Type:** STRING
+- **Description:** The title of the book.
+
+#### author
+
+- **Type:** STRING
+- **Description:** The author of the book.
+
+#### description
+
+- **Type:** STRING
+- **Description:** A brief description of the book.
+
+#### rack_number
+
+- **Type:** INTEGER
+- **Description:** The rack number where the book is located.
+- **Validation:** Must be between 1 and 10.
+
+#### photo
+
+- **Type:** STRING
+- **Description:** A URL to the book's cover photo.
+
+---
+
+### Borrow Model
+
+#### borrow_id
+
+- **Type:** INTEGER
+- **Description:** Unique identifier for each borrow record. Auto-incremented primary key.
+
+#### return_date
+
+- **Type:** STRING
+- **Description:** The return date of the borrowed book.
+- **Allow Null:** true
+
+#### status
+
+- **Type:** ENUM('accepted', 'waiting')
+- **Description:** The status of the borrow request.
+- **Default Value:** waiting
+- **Allow Null:** false
+
+---
+
+### Gender Model
+
+#### gender_id
+
+- **Type:** INTEGER
+- **Description:** Unique identifier for each gender. Auto-incremented primary key.
+
+#### gender
+
+- **Type:** STRING
+- **Description:** The gender description.
+
+---
+
+### Category Model
+
+#### category_id
+
+- **Type:** INTEGER
+- **Description:** Unique identifier for each category. Auto-incremented primary key.
+
+#### category
+
+- **Type:** STRING
+- **Description:** The category description.
+
+
+## Backend APIs
+  
 ### Authentication Routes (`authentication.route.js`)
 
 - `/api/auth/login`
@@ -16,7 +162,8 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
   - Method: `POST`
   - Description: Register a new user
 
- 
+---
+
 ### Book Routes (`book.route.js`)
 
 - `/api/books`
@@ -55,6 +202,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
   - Method: `DELETE`
   - Description: Delete a book by ID
 
+---
  
 ### Category Routes (`category.route.js`)
 
@@ -86,7 +234,8 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
   - Method: `DELETE`
   - Description: Delete a category by ID
 
- 
+ ---
+
 ### Gender Routes (`gender.route.js`)
 
 - `/api/genders`
@@ -109,6 +258,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
   - Method: `DELETE`
   - Description: Delete a gender by ID
 
+---
 
 ### User Routes (`user.route.js`)
 
@@ -144,6 +294,7 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
   - Method: `DELETE`
   - Description: Delete a user by ID
 
+---
 
 ### Borrow Routes (`borrow.route.js`)
 
