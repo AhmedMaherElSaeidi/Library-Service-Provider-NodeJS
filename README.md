@@ -56,6 +56,12 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - **Description:** The type of user.
 - **Default Value:** normal
 
+### Relationships
+
+- **Has Many:** Borrows (User to Borrow)
+- **Has Many:** Books (User to Book)
+- **Belongs To:** Gender (User to Gender)
+
 ---
 
 ### Book Model
@@ -98,6 +104,12 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - **Type:** STRING
 - **Description:** A URL to the book's cover photo.
 
+### Relationships
+
+- **Has Many:** Borrows (Book to Borrow)
+- **Belongs To:** User (Book to User)
+- **Belongs To:** Category (Book to Category)
+
 ---
 
 ### Borrow Model
@@ -120,6 +132,11 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - **Default Value:** waiting
 - **Allow Null:** false
 
+### Relationships
+
+- **Belongs To:** User (Borrow to User)
+- **Belongs To:** Book (Borrow to Book)
+
 ---
 
 ### Gender Model
@@ -134,6 +151,10 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - **Type:** STRING
 - **Description:** The gender description.
 
+### Relationships
+
+- **Has Many:** Users (Gender to User)
+
 ---
 
 ### Category Model
@@ -147,6 +168,10 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 
 - **Type:** STRING
 - **Description:** The category description.
+
+### Relationships
+
+- **Has Many:** Books (Category to Book)
 
 
 ## Backend APIs
