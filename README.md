@@ -43,6 +43,7 @@
   - [Gender Routes (`gender.route.js`)](#gender-routes-genderroutejs)
   - [User Routes (`user.route.js`)](#user-routes-userroutejs)
   - [Borrow Routes (`borrow.route.js`)](#borrow-routes-borrowroutejs)
+- [Starting the Backend](#starting-the-backend)
 - [UI](#user-interface)
 
 ## Project Description
@@ -394,6 +395,15 @@ The LibraryServer Provider is a comprehensive web solution designed to automate 
 - `/api/borrows/:id`
   - Method: `DELETE`
   - Description: Delete a borrow by ID
- 
+
+## Starting the Backend
+To start the backend for the first time, follow these steps:
+
+* Execute the `run_app` script to initialize the application
+* After running the `run_app` script, you need to stop the application by running the `stop_app` script.
+* Finally, run the `run_app` script once more to start the application.
+
+Your backend server should now be up and running. You can access the API endpoints as described in the Backend APIs section.
+
 ## User Interface
 Here you can find the implemented [Frontend](https://github.com/AhmedMaherElSaeidi/Library-Service-Provider-ReactJs).
